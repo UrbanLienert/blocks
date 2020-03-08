@@ -21,13 +21,15 @@ With this mechanism the blocks can be also be used very reliable with MIDI over 
 ## Building / Installation
 
 To build the external from source make sure to check out the repository with the following command:
+
 `git clone --recursive https://github.com/UrbanLienert/blocks.git`
 
 ### macOS
 Make sure you have the Apple Developer Tools installed.
 
 Run the following command in the terminal:
-'make'
+
+`make`
 
 Copy the two files **blocks.pd_darwin** and **blocks-help.pd** from `build/MacOS` to `~/Documents/Pd/externals/`
 
@@ -41,6 +43,7 @@ Install the following dependencies
 - libcurl4-openssl-dev
 
 Run the following command in the terminal:
-'make'
+
+`make`
 
 Copy the two files **blocks.pd_linux** and **blocks-help.pd** from `build/Linux` to `/usr/local/lib/pd-externals`
