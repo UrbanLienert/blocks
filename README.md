@@ -47,3 +47,8 @@ Run the following command in the terminal:
 `make`
 
 Copy the two files **blocks.pd_linux** and **blocks-help.pd** from `build/Linux` to `/usr/local/lib/pd-externals`
+
+## Reporting Bugs
+
+Please submit bug reports and pull requests through the source code repository, or send me an email.
+Urban Lienert <mail@urbanlienert.com>
