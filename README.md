@@ -12,7 +12,7 @@ This is a Pd external for Roli Blocks, that is built on top of the [ROLI Blocks]
   - Getting the touch information, fader and button values from the different modes.
   - Setting fader and button values on the block.
   - Drawing leds, rectangles, triangles and circles
-- Seaboards Blocks
+- Seaboard Blocks
   - Controlling all settings of the block like MIDI channel, modes, sensitivity etc.
 
 As the blocks communicate over MIDI with the host software, the host software has no way to detect, if the information sent from the host (colors, fader values etc.) were properly received by the block. This Pd external checks it the block has received all information sent from Pure Data, to make sure, it represents the correct state. If not, the packets are resent. This is especially important when drawing on the blocks. In this case, the right order of the drawing commands is also verified.
