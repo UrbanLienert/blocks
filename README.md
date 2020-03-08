@@ -51,4 +51,5 @@ Copy the two files **blocks.pd_linux** and **blocks-help.pd** from `build/Linux`
 ## Reporting Bugs
 
 Please submit bug reports and pull requests through the source code repository, or send me an email.
+
 Urban Lienert <mail@urbanlienert.com>
