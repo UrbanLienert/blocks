@@ -11,9 +11,6 @@ ifndef CONFIG
     CONFIG := Release
 endif
 
-# The name of your application.
-APP_NAME := blocks.pd_darwin
-
 # The path to temporary build files.
 OBJECT_DIR := build/$(CONFIG)
 
@@ -68,6 +65,7 @@ $(JUCE_OUTDIR)/$(APP_NAME): $(JUCE_OBJECTS)
 	@mkdir -p $(dir $@)
 	$(CXX) $(LIBS) $^ -o $@ $(LDFLAGS)
 	rm -rf $(JUCE_OBJDIR)
+	cp -f blocks-help.pd $(JUCE_OUTDIR)/blocks-help.pd
 
 $(JUCE_OBJDIR)/external/%.o: %.mm
 	@mkdir -p $(dir $@)
