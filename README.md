@@ -18,6 +18,8 @@ This is a Pd external for Roli Blocks, that is built on top of the [ROLI Blocks]
 As the blocks communicate over MIDI with the host software, the host software has no way to detect, if the information sent from the host (colors, fader values etc.) were properly received by the block. This Pd external checks it the block has received all information sent from Pure Data, to make sure, it represents the correct state. If not, the packets are resent. This is especially important when drawing on the blocks. In this case, the right order of the drawing commands is also verified.
 With this mechanism the blocks can be also be used very reliable with MIDI over Bluetooth.
 
+![blocks-help.pd](https://github.com/UrbanLienert/blocks/blob/master/blocks-help.png?raw=true)
+
 ## Building / Installation
 
 To build the external from source make sure to check out the repository with the following command:
