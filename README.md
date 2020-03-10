@@ -20,6 +20,21 @@ With this mechanism the blocks can be also be used very reliable with MIDI over 
 
 ![blocks-help.pd](https://github.com/UrbanLienert/blocks/blob/master/blocks-help.png?raw=true)
 
+## Usage
+
+Send and receive messages to and from blocks by name. The default name for a Lightpad Block is `pad` and for a Seaboard Block `seaboard`. If you have multiple blocks of the same type e.g. two Lightpad Blocks, then you have two give at least one block another name to distinguish them with the message: `setname [serialnumber] [newname]`.
+You can find the serial numbers of the connected blocks in the Pd console.
+
+Here are some examples for sending message:
+- Show a mixer with 4 channels on the block: `[blockname] mode mixer 4`
+- Set the block in drawing mode: `[blockname] mode paint`
+- Draw a red square rectangle on the block: `[blockname] 2 2 5 5 0xff0000`
+
+An example for a received message when in mixer mode:
+- Receiving button 2 value (on): `[blockname] button 2 1`
+
+Important: Only use one block object in Pd at the same time for all connected blocks, otherwise the objects get blocked!
+
 ## Building / Installation
 
 To build the external from source make sure to check out the repository with the following command:
