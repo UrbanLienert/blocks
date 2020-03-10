@@ -33,6 +33,11 @@ bool JuceThread::stopThread(int timeOutMilliseconds) {
 void JuceThread::run() {
     ScopedJuceInitialiser_GUI platform;
     
+    if (!MessageManager::getInstanceWithoutCreating()->isThisTheMessageThread()) {
+        error("there's already a 'blocks' object running");
+        return;
+    }
+    
     mBlockFinder = {std::make_unique<BlockFinder>()};
     mBlockFinder->out_A = out_A;
     mBlockFinder->out_B = out_B;
@@ -41,7 +46,7 @@ void JuceThread::run() {
 
     do
     {
-        MessageManager::getInstance()->runDispatchLoopUntil(10);
+        MessageManager::getInstanceWithoutCreating()->runDispatchLoopUntil(10);
     }
     while (!threadShouldExit());
     mBlockFinder = nullptr;

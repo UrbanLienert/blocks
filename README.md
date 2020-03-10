@@ -33,7 +33,7 @@ Here are some examples for sending messages:
 An example for a received message when in mixer mode:
 - Receiving button 2 value (on): `[blockname] button 2 1`
 
-**Important: Only use one block object in Pd at the same time for all connected blocks, otherwise the objects get blocked!**
+**Important: Only use one block object in Pd at the same time for all connected blocks.**
 
 ## Building / Installation
 
