@@ -145,8 +145,9 @@ void BlockComponent::setSettingsValue(juce::String name, int value) {
     for (int i=0; i<maxIndex; i++) {
         Block::ConfigMetaData metaData = block->getLocalConfigMetaData(i);
         if (metaData.name.removeCharacters(". ").toLowerCase().compare(name.toLowerCase())==0) {
-            block->setLocalConfigValue(metaData.item, value);
-            post((metaData.name + ": %i").toUTF8(), value);
+            int clippedValue = metaData.range.clipValue(value);
+            block->setLocalConfigValue(metaData.item, clippedValue);
+            post((metaData.name + ": %i").toUTF8(), clippedValue);
             break;
         }
     }
