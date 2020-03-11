@@ -107,6 +107,15 @@ void BlockFinder::setPdNameForSerial(const char *serial, const char *name) {
 }
 
 void BlockFinder::doBlockCommand(t_symbol *name, int argc, t_atom *argv) {
+    // removing list atom, if there is one
+    if (String(name->s_name).compare("list")==0) {
+        name = argv[0].a_w.w_symbol;
+        for (int i=1; i<argc; i++) {
+            argv[i-1] = argv[i];
+        }
+        argc --;
+    }
+    // searching for block
     String serial = namesAndUIDs->getValue(String(name->s_name), String());
     if (serial.length()>0) {
         // found the block
