@@ -257,6 +257,29 @@ void BlockFinder::doBlockCommand(t_symbol *name, int argc, t_atom *argv) {
                                 component->setTriangleColor(x-1, y-1, s, d, color);
                             }
                         }
+                        // draw number with color command
+                        else if (command.compare("number")==0) {
+                            if (argc>2) {
+                                t_atom fAtom1 = argv[1];
+                                t_atom sAtom = argv[2];
+                                if (fAtom1.a_type==A_FLOAT && sAtom.a_type==A_SYMBOL) {
+                                    int n = (int)fAtom1.a_w.w_float;
+                                    String *hexString = new String(sAtom.a_w.w_symbol->s_name);
+                                    uint32 argb = 0xff000000 + hexString->getHexValue32();
+                                    LEDColour *color = new LEDColour(argb);
+                                    component->setNumberColor(n, color);
+                                }
+                            }
+                            if (argc>1) {
+                                t_atom sAtom = argv[1];
+                                if (sAtom.a_type==A_SYMBOL) {
+                                    String symbol = String(sAtom.a_w.w_symbol->s_name);
+                                    if (symbol.compare("hide")==0) {
+                                        component->hideNumberColor();
+                                    }
+                                }
+                            }
+                        }
                         // clear screen (drawing)
                         else if (command.compare("clear")==0) {
                             component->clearScreen();

@@ -11,7 +11,7 @@ This is a Pd external for Roli Blocks, that is built on top of the [ROLI Blocks]
   - Setting the grid size and colors of the controls.
   - Getting the touch information, fader and button values from the different modes.
   - Setting fader and button values on the block.
-  - Drawing leds, rectangles, triangles and circles
+  - Drawing leds, rectangles, triangles, circles and numbers
 - Seaboard Blocks
   - Controlling all settings of the block like MIDI channel, modes, sensitivity etc.
 

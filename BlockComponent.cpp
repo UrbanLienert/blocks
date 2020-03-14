@@ -124,6 +124,15 @@ void BlockComponent::setTriangleColor(int x, int y, int s, int deg, juce::LEDCol
     sendStampedMessage(8, x, y, param2, c);
 }
 
+void BlockComponent::setNumberColor(int n, juce::LEDColour *colour) {
+    int c = colour->getARGB();
+    sendStampedMessage(9, 1, 0, n, c);
+}
+
+void BlockComponent::hideNumberColor() {
+    sendStampedMessage(9, 0, 0, 0, 0);
+}
+
 void BlockComponent::clearScreen() {
     sendStampedMessage(5, 0, 0, 0, 0);
 }

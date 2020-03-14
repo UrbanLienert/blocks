@@ -16,7 +16,7 @@ String LightpadProgram::getLittleFootProgram()
 {
     return R"littlefoot(
         
-        #heapsize: 861
+        #heapsize: 870
         
         //==============================================================================
         /*
@@ -50,6 +50,10 @@ String LightpadProgram::getLittleFootProgram()
            === Mixer ===
            
            821   4 byte * 10  fader / buttons
+           
+           === Overlay Number ===
+           
+           861   9 byte ( 4 byte number / 4 byte color / 1 byte mode)
            
         */
         //==============================================================================
@@ -99,6 +103,16 @@ String LightpadProgram::getLittleFootProgram()
                 drawPainting();
             } else if (mode==5) {
                 drawMixer();
+            }
+            bool overlay = getHeapByte(869);
+            if (overlay) {
+                int number = getHeapInt(861);
+                int colour = getHeapInt(865);
+                if (number < 100) {
+                    drawNumber(number, colour);
+                } else {
+                    drawSmallNumber(number, colour);
+                }
             }
         }
         
@@ -346,6 +360,45 @@ String LightpadProgram::getLittleFootProgram()
             }
         }
         
+        void drawNumber(int n, int color) {
+            int sy = 4;
+            int sx = 3;
+            
+            int n1 = getBitValueForNumber(n / 10);
+            int n2 = getBitValueForNumber(n % 10);
+            int c = 0;
+            for (int y = 0; y < 7; ++y) {
+                for (int x = 0; x < 4; ++x) {
+                    if (((n1 >> (27-c)) & 0x01) == 1)
+                        fillPixel(color, sx+x, sy+y);
+                    if (((n2 >> (27-c)) & 0x01) == 1)
+                        fillPixel(color, sx+x+5, sy+y);
+                    ++c;
+                }
+            }
+        }
+        
+        void drawSmallNumber(int n, int color) {
+            int sy = 5;
+            int sx = 2;
+            
+            int n1 = getBitValueForSmallNumber(n / 100);
+            int n2 = getBitValueForSmallNumber((n % 100) / 10);
+            int n3 = getBitValueForSmallNumber(n % 10);
+            int c = 0;
+            for (int y = 0; y < 5; ++y) {
+                for (int x = 0; x < 3; ++x) {
+                    if (((n1 >> (14-c)) & 0x01) == 1)
+                        fillPixel(color, sx+x, sy+y);
+                    if (((n2 >> (14-c)) & 0x01) == 1)
+                        fillPixel(color, sx+x+4, sy+y);
+                    if (((n3 >> (14-c)) & 0x01) == 1)
+                        fillPixel(color, sx+x+8, sy+y);
+                    ++c;
+                }
+            }
+        }
+        
         void clearScreen() {
             for (int x = 0; x < 675; ++x) {
                 int byte = x + 146;
@@ -363,6 +416,69 @@ String LightpadProgram::getLittleFootProgram()
                     fillPixel (makeARGB(0xff, red, green, blue), x, y);
                 }
             }
+        }
+        
+        
+        int getBitValueForNumber(int number) {
+            if (number==1) {
+                return 102900258;
+            }
+            if (number==2) {
+                return 110175375;
+            }
+            if (number==3) {
+                return 110190998;
+            }
+            if (number==4) {
+                return 56226065;
+            }
+            if (number==5) {
+                return 260628766;
+            }
+            if (number==6) {
+                return 38332822;
+            }
+            if (number==7) {
+                return 252781636;
+            }
+            if (number==8) {
+                return 110717334;
+            }
+            if (number==9) {
+                return 110719268;
+            }
+            return 110877078;
+        }
+        
+        int getBitValueForSmallNumber(int number) {
+            if (number==1) {
+                return 11410;
+            }
+            if (number==2) {
+                return 31399;
+            }
+            if (number==3) {
+                return 29327;
+            }
+            if (number==4) {
+                return 23497;
+            }
+            if (number==5) {
+                return 31118;
+            }
+            if (number==6) {
+                return 14762;
+            }
+            if (number==7) {
+                return 29348;
+            }
+            if (number==8) {
+                return 10922;
+            }
+            if (number==9) {
+                return 10958;
+            }
+            return 11114;
         }
         
         void touchStart(int index, float x, float y, float z, float vz) {
@@ -493,6 +609,17 @@ String LightpadProgram::getLittleFootProgram()
             } else if (command==8) {
                 // draw triangle
                 drawTriangle(subCommand, param1 & 0xff, (param2 >> 16) & 0xff, param2 & 0xff, param3);
+            } else if (command==9) {
+                // draw number overlay
+                if (subCommand==1) {
+                    // overlay
+                    setHeapInt(861, param2);
+                    setHeapInt(865, param3);
+                    setHeapByte(869, 1);
+                } else if (subCommand==0) {
+                    // hide overlay
+                    setHeapByte(869, 0);
+                }
             }
             // send back message for confirmation
             sendMessageToHost(param1, 0 , 0);

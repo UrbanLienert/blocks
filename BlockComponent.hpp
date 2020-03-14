@@ -52,6 +52,8 @@ public:
     void setRectColor(int x, int y, int w, int h, juce::LEDColour *colour);
     void setCircleColor(int x, int y, int r, juce::LEDColour *colour);
     void setTriangleColor(int x, int y, int s, int deg, juce::LEDColour *colour);
+    void setNumberColor(int n, juce::LEDColour *colour);
+    void hideNumberColor();
     void clearScreen();
     
     // set Local Settings
