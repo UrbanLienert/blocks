@@ -47,12 +47,10 @@ private:
     // The PhysicalTopologySource member variable which reports BLOCKS changes.
     juce::PhysicalTopologySource pts;
         
-    //std::unique_ptr<BlockComponent> connectedBlockComponent;
-    juce::StringPairArray* namesAndUIDs = nullptr;
+    juce::StringPairArray* serialsAndNames = nullptr;
     
     // new for multiple Blocks
     juce::OwnedArray<BlockComponent> blockComponents;
-    //BlockComponent* masterBlockComponent = nullptr;
 
     void updateComponents();
     void outputTopology();

@@ -17,6 +17,7 @@ JuceThread::JuceThread (const String &threadName, t_outlet *a, t_outlet *b, t_ou
     out_B = b;
     out_C = c;
     out_D = d;
+    blockReady = false;
 }
 
 JuceThread::~JuceThread() {
@@ -35,6 +36,7 @@ void JuceThread::run() {
     
     if (!MessageManager::getInstanceWithoutCreating()->isThisTheMessageThread()) {
         error("there's already a 'blocks' object running");
+        blockReady = true;
         return;
     }
     
@@ -43,6 +45,7 @@ void JuceThread::run() {
     mBlockFinder->out_B = out_B;
     mBlockFinder->out_C = out_C;
     mBlockFinder->out_D = out_D;
+    blockReady = true;
 
     do
     {

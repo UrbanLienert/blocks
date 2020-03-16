@@ -26,6 +26,7 @@ public:
     t_outlet *out_D;
 
     std::unique_ptr<BlockFinder> mBlockFinder;
+    bool blockReady;
     
 private:
 

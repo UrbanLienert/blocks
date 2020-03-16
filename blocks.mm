@@ -70,17 +70,33 @@ extern "C" void blocks_setup(void)
 }
 
 static void blocks_setname(t_blocks *x, t_symbol *serial, t_symbol *name) {
-    x->juceThread->mBlockFinder->setPdNameForSerial(serial->s_name, name->s_name);
+    while (!x->juceThread->blockReady) {
+        // make sure BlockFinder is ready, when using loadbang in pd
+        juce::Thread::getCurrentThread()->sleep(10);
+    }
+    if (x->juceThread->mBlockFinder!=nullptr) {
+        x->juceThread->mBlockFinder->setPdNameForSerial(serial->s_name, name->s_name);
+    }
 }
 
 static void blocks_command(t_blocks *x, t_symbol *s, int argc, t_atom *argv) {
     if (argc>0) {
-        x->juceThread->mBlockFinder->doBlockCommand(s, argc, argv);
+        while (!x->juceThread->blockReady) {
+            juce::Thread::getCurrentThread()->sleep(10);
+        }
+        if (x->juceThread->mBlockFinder!=nullptr) {
+            x->juceThread->mBlockFinder->doBlockCommand(s, argc, argv);
+        }
     } else {
         error("too few arguments");
     }
 }
 
 static void blocks_bang(t_blocks *x) {
-    x->juceThread->mBlockFinder->pollInfos();
+    while (!x->juceThread->blockReady) {
+        juce::Thread::getCurrentThread()->sleep(10);
+    }
+    if (x->juceThread->mBlockFinder!=nullptr) {
+        x->juceThread->mBlockFinder->pollInfos();
+    }
 }
