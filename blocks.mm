@@ -49,9 +49,7 @@ static void *blocks_new(t_symbol *s, int argc, t_atom *argv)
     if (argc>0) {
         t_atom arg1 = argv[0];
         if (arg1.a_type==A_SYMBOL) {
-            post(arg1.a_w.w_symbol->s_name);
             if (arg1.a_w.w_symbol==gensym("noload")) {
-                post("we should not load");
                 loadProgram = false;
             }
         }
