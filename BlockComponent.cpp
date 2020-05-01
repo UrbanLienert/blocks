@@ -10,7 +10,7 @@
 
 using namespace juce;
 
-BlockComponent::BlockComponent(Block::Ptr blockToUse) {
+BlockComponent::BlockComponent(Block::Ptr blockToUse, bool loadProgram) {
     
     block = blockToUse;
     pdName = new String(block->getDeviceDescription().upToFirstOccurrenceOf(String(" "), false, false).toLowerCase());
@@ -34,7 +34,7 @@ BlockComponent::BlockComponent(Block::Ptr blockToUse) {
         button->addListener (this);
     
     // If it's a Lightpad load the LightpadProgram
-    if (block->getType() == Block::lightPadBlock) {
+    if (block->getType() == Block::lightPadBlock && loadProgram) {
         block->setProgram (new LightpadProgram (*block));
     }
     
@@ -50,6 +50,10 @@ BlockComponent::~BlockComponent() {
     }
     for (auto button : block->getButtons())
         button->removeListener (this);
+}
+
+void BlockComponent::setDefault() {
+    block->saveProgramAsDefault();
 }
 
 void BlockComponent::setLightpadMode(String name) {

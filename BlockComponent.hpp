@@ -16,7 +16,7 @@ class BlockComponent : private juce::TouchSurface::Listener,
                        private juce::Timer
 {
 public:
-    BlockComponent (juce::Block::Ptr blockToUse);
+    BlockComponent (juce::Block::Ptr blockToUse, bool loadProgram);
     ~BlockComponent();
     
     juce::Block::Ptr block;
@@ -30,6 +30,9 @@ public:
     t_outlet *out_info;
     
     juce::NamedValueSet *messageSet;
+    
+    // set Programm as default
+    void setDefault();
     
     // set Mode in Lightpad Program
     void setLightpadMode(juce::String name);

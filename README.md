@@ -37,15 +37,15 @@ An example for a received message when in mixer mode:
 
 ## Building / Installation
 
-To build the external from source make sure to check out the repository with the following command:
-
-`git clone --recursive https://github.com/UrbanLienert/blocks.git`
+Currently the Makefile only supports macOS and Linux althoug it should compile on Windows as well.
 
 ### macOS
 Make sure you have the Apple Developer Tools installed.
 
 Run the following command in the terminal:
 
+`git clone --recursive https://github.com/UrbanLienert/blocks.git`
+`cd blocks`
 `make`
 
 Copy the two files **blocks.pd_darwin** and **blocks-help.pd** from `build/MacOS` to `~/Documents/Pd/externals/`
@@ -61,6 +61,8 @@ Install the following dependencies
 
 Run the following command in the terminal:
 
+`git clone --recursive https://github.com/UrbanLienert/blocks.git`
+`cd blocks`
 `make`
 
 Copy the two files **blocks.pd_linux** and **blocks-help.pd** from `build/Linux` to `/usr/local/lib/pd-externals`

@@ -30,23 +30,36 @@ typedef struct {
 } t_blocks;
 
 // function declarations
-static void *blocks_new();
+static void *blocks_new(t_symbol *s, int argc, t_atom *argv);
 void blocks_free(t_blocks *x);
 extern "C" void blocks_setup(void);
 static void blocks_setname(t_blocks *x, t_symbol *serial, t_symbol *name);
 static void blocks_command(t_blocks *x, t_symbol *s, int argc, t_atom *argv);
 static void blocks_bang(t_blocks *x);
 
-static void *blocks_new()
+static void *blocks_new(t_symbol *s, int argc, t_atom *argv)
 {
     t_blocks *x = (t_blocks *)pd_new(blocks_class);
     x->out_A = outlet_new(&x->x_obj, &s_anything);
     x->out_B = outlet_new(&x->x_obj, &s_anything);
     x->out_C = outlet_new(&x->x_obj, &s_anything);
     x->out_D = outlet_new(&x->x_obj, &s_bang);
+    
+    bool loadProgram = true;
+    if (argc>0) {
+        t_atom arg1 = argv[0];
+        if (arg1.a_type==A_SYMBOL) {
+            post(arg1.a_w.w_symbol->s_name);
+            if (arg1.a_w.w_symbol==gensym("noload")) {
+                post("we should not load");
+                loadProgram = false;
+            }
+        }
+    }
 
-    x->juceThread = {std::make_unique<JuceThread>(juce::String("blockThread"), x->out_A, x->out_B, x->out_C, x->out_D)};
-    x->juceThread->startThread();    
+    x->juceThread = {std::make_unique<JuceThread>(juce::String("blockThread"), x->out_A, x->out_B, x->out_C, x->out_D, loadProgram)};
+    x->juceThread->startThread();
+    
     return (x);
 }
 
@@ -62,7 +75,7 @@ void blocks_free(t_blocks *x) {
 extern "C" void blocks_setup(void)
 {
     blocks_class = class_new(gensym("blocks"), (t_newmethod)blocks_new,
-        (t_method)blocks_free, sizeof(t_blocks), CLASS_DEFAULT, A_DEFFLOAT, A_DEFFLOAT, A_NULL);
+        (t_method)blocks_free, sizeof(t_blocks), CLASS_DEFAULT, A_GIMME, A_NULL);
     
     class_addmethod(blocks_class, (t_method)blocks_setname, gensym("setname"), A_DEFSYMBOL, A_DEFSYMBOL, 0);
     class_addanything(blocks_class, (t_method)blocks_command);

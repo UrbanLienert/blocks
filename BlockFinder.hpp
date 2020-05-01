@@ -34,6 +34,7 @@ public:
     t_outlet *out_B;
     t_outlet *out_C;
     t_outlet *out_D;
+    bool loadPrgram;
 
     void setPdNameForSerial(const char *serial, const char *name);
     void doBlockCommand(t_symbol *name, int argc, t_atom *argv);

@@ -13,7 +13,7 @@
 class JuceThread : private juce::Thread
 {
 public:
-    JuceThread (const juce::String &threadName, t_outlet *a, t_outlet *b, t_outlet *c, t_outlet *d, size_t threadStackSize=0);
+    JuceThread (const juce::String &threadName, t_outlet *a, t_outlet *b, t_outlet *c, t_outlet *d, bool loadDefaultProgram, size_t threadStackSize=0);
     ~JuceThread();
     
     void startThread();
@@ -24,6 +24,7 @@ public:
     t_outlet *out_B;
     t_outlet *out_C;
     t_outlet *out_D;
+    bool loadProgram;
 
     std::unique_ptr<BlockFinder> mBlockFinder;
     bool blockReady;

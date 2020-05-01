@@ -10,13 +10,14 @@
 
 using namespace juce;
 
-JuceThread::JuceThread (const String &threadName, t_outlet *a, t_outlet *b, t_outlet *c, t_outlet *d, size_t threadStackSize)
+JuceThread::JuceThread (const String &threadName, t_outlet *a, t_outlet *b, t_outlet *c, t_outlet *d, bool loadDefaultProgram, size_t threadStackSize)
     :Thread(threadName, threadStackSize)
 {
     out_A = a;
     out_B = b;
     out_C = c;
     out_D = d;
+    loadProgram = loadDefaultProgram;
     blockReady = false;
 }
 
@@ -45,6 +46,7 @@ void JuceThread::run() {
     mBlockFinder->out_B = out_B;
     mBlockFinder->out_C = out_C;
     mBlockFinder->out_D = out_D;
+    mBlockFinder->loadPrgram = loadProgram;
     blockReady = true;
 
     do

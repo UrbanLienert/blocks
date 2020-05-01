@@ -80,7 +80,7 @@ void BlockFinder::topologyChanged()
             }
         }
         if (!found) {
-            BlockComponent *component = new BlockComponent(block);
+            BlockComponent *component = new BlockComponent(block, loadPrgram);
             component->out_action = out_A;
             component->out_info = out_B;
             blockComponents.add(component);
@@ -120,8 +120,13 @@ void BlockFinder::doBlockCommand(t_symbol *name, int argc, t_atom *argv) {
                 t_atom cAtom = argv[0];
                 if (cAtom.a_type==A_SYMBOL) {
                     String command = String(cAtom.a_w.w_symbol->s_name);
+                    // set programm as default
+                    if (command.compare("setdefault")==0) {
+                        component->setDefault();
+                        post("setting default program");
+                    }
                     // mode command
-                    if (command.compare("mode")==0 && argc>1) {
+                    else if (command.compare("mode")==0 && argc>1) {
                         t_atom pAtom = argv[1];
                         if (pAtom.a_type==A_SYMBOL) {
                             component->setLightpadMode(String(pAtom.a_w.w_symbol->s_name));
